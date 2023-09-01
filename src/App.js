@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function App() {
+const App = () => {
+  const [inputVal, setInputVal] = useState('');
+  const [info, setInfo] = useState('');
+
+  const handleChange = (e) => {
+    console.log(e.target.value)
+    setInputVal(e.target.value);
+  }
+  
+  const getInfo = () => { 
+    console.log(inputVal);
+    axios.get(inputVal).then(response => { 
+      console.log(response);
+    }).catch(error => { 
+      console.error('there is no info');
+    })
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type='text'
+        onChange={handleChange}
+        value={inputVal}
+      />
+      <button onClick={getInfo}>Submit</button>
+      {info ? <div className='info'>info</div>
+            : <div className='info'>'no infomation here'</div>}
     </div>
   );
 }
